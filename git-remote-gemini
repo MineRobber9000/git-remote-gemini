@@ -150,10 +150,11 @@ class GitRemoteGemini:
 		except:
 			die("unable to decode "+self.url.rstrip("/")+"/HEAD")
 		refs["HEAD"]="@"+head_ref.split("ref: ")[1].rstrip() # sym ref to HEAD
-		return refs
+		return refs, hash_algo
 	def command_list(self,_=None): # if it says `list for-push`, we just ignore it
 		"""Lists refs one per line."""
-		refs = self.get_refs()
+		refs, hash_algo = self.get_refs()
+		yield ':output-format '+self.get_hash_algo_name(hash_algo)
 		for refname in refs:
 			yield ' '.join((refs[refname],refname))
 		yield ''
