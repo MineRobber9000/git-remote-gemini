@@ -81,7 +81,7 @@ def fetch(url,breadcrumbs=None,backoff=1,max_backoff=1024):
 			die("timeout connecting to server")
 		address = s.getpeername()[0]
 		cert = s.getpeercert(binary_form=True)
-		validate_cert(parsed.hostname,address,cert)
+		validate_cert(cert,parsed.hostname,address)
 		# if we're still here, the cert verified
 		s.send((url+"\r\n").encode("utf-8"))
 		out = b""
